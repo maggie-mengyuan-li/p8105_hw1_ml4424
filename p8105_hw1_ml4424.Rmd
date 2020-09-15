@@ -9,15 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r load libraries}
 library(tidyverse)
 ```
 
 ## Problem 1
 
-```{r}
-# create df
-
+```{r create df}
 p1_df <- tibble(
   samp = rnorm(10),
   log_vec = samp > 0,
@@ -32,7 +30,7 @@ p1_df
 
 ```
 
-```{r}
+```{r numeric coercion}
 as.numeric(p1_df$log_vec)
 as.numeric(p1_df$char_vec)
 mean(as.numeric(p1_df$fac_vec))
@@ -40,7 +38,7 @@ mean(as.numeric(p1_df$fac_vec))
 # as.numeric works with logical and factor variables. it is because the logical vector consists of binary numeric values T=1 and F=0, and factor variables are categorical variables but when converted to numeric they get coerced to numbered levels. this helps to explain why mean works with logical vectors, but not factor variables until they are coerced to numeric.
 ```
 
-```{r}
+```{r convert logical}
 as.numeric(p1_df$log_vec) * p1_df$samp 
 # this works because log_vec is easily coerced to numeric, T=1 and F=0
 

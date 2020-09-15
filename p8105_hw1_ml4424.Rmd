@@ -1,0 +1,11 @@
+---
+title: "p8105_hw1_ml4424"
+author: "Maggie Li (ml4424)"
+date: "9/15/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+

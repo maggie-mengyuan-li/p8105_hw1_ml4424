@@ -49,3 +49,22 @@ as.numeric(as.factor(p1_df$log_vec)) * p1_df$samp
 # T gets coded as 2 and False as 1 for numeric, and can multiple it by another numeric
 ```
 
+## Problem 2
+```{r}
+data("penguins", package = "palmerpenguins")
+names(penguins)
+summary(penguins)
+nrow(penguins)
+ncol(penguins)
+mean(penguins$flipper_length_mm)
+```
+
+The names in the penguins dataset are 
+`r names(penguins)`. 
+
+The values of important variables are `r summary(penguins)`
+
+The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columns.
+
+The mean flipper length is `r mean(penguins$flipper_length_mm)`.
+

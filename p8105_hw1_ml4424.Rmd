@@ -52,8 +52,10 @@ as.numeric(as.factor(p1_df$log_vec)) * p1_df$samp
 ## Problem 2
 ```{r}
 data("penguins", package = "palmerpenguins")
-names(penguins)
 summary(penguins)
+nrow(penguins %>% filter(sex == "female"))
+levels(penguins$species)
+summary(penguins$species)
 nrow(penguins)
 ncol(penguins)
 mean(penguins$flipper_length_mm)
@@ -62,9 +64,22 @@ mean(penguins$flipper_length_mm)
 The names in the penguins dataset are 
 `r names(penguins)`. 
 
-The values of important variables are `r summary(penguins)`
+The values for penguin species are `r summary(penguins$species)` for `r levels(penguins$species)`, respectively.
+
+The values for penguin island are `r summary(penguins$island)` for `r levels(penguins$island)`, respectively.
+
+The values for penguin bill length (mm) are `r summary(penguins$bill_length_mm)` for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.
+
+The values for penguin bill depth (mm) are `r summary(penguins$bill_depth_mm)` for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.
+
+The values for penguin flipper length (mm) are `r summary(penguins$flipper_length_mm)` for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.
+
+The values for body mass in grams are `r summary(penguins$body_mass_g)` for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.
+
+There are `r nrow(penguins %>% filter(sex == "female"))` females and `r nrow(penguins %>% filter(sex == "male"))` males in the penguins dataset.
 
 The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columns.
 
 The mean flipper length is `r mean(penguins$flipper_length_mm)`.
 
+### Scatterplot

@@ -370,12 +370,12 @@ summary {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.1     ✓ purrr   0.3.4
 ## ✓ tibble  3.0.1     ✓ dplyr   1.0.0
 ## ✓ tidyr   1.1.0     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <div id="problem-1" class="section level2">
@@ -392,19 +392,19 @@ p1_df</code></pre>
 <pre><code>## # A tibble: 10 x 4
 ##       samp log_vec char_vec fac_vec
 ##      &lt;dbl&gt; &lt;lgl&gt;   &lt;chr&gt;    &lt;fct&gt;  
-##  1  0.425  TRUE    a        bananas
-##  2  1.26   TRUE    b        oranges
-##  3 -0.975  FALSE   c        apples 
-##  4 -0.532  FALSE   d        bananas
-##  5 -1.21   FALSE   e        oranges
-##  6 -0.0978 FALSE   f        apples 
-##  7  0.565  TRUE    g        bananas
-##  8 -0.680  FALSE   h        oranges
-##  9  0.555  TRUE    i        apples 
-## 10 -0.392  FALSE   j        bananas</code></pre>
+##  1  0.311  TRUE    a        bananas
+##  2  0.183  TRUE    b        oranges
+##  3 -1.07   FALSE   c        apples 
+##  4 -0.564  FALSE   d        bananas
+##  5 -1.44   FALSE   e        oranges
+##  6  0.971  TRUE    f        apples 
+##  7  0.717  TRUE    g        bananas
+##  8 -1.53   FALSE   h        oranges
+##  9 -0.948  FALSE   i        apples 
+## 10 -0.0251 FALSE   j        bananas</code></pre>
 <pre class="r"><code># you can take the mean of samp, log_vec (I am assuming since it is a vector of binary numeric values, T = 1 and F = 0 values) since these are continuous variables, but cannot take mean of characters or factors since these are categorical variables</code></pre>
 <pre class="r"><code>as.numeric(p1_df$log_vec)</code></pre>
-<pre><code>##  [1] 1 1 0 0 0 0 1 0 1 0</code></pre>
+<pre><code>##  [1] 1 1 0 0 0 1 1 0 0 0</code></pre>
 <pre class="r"><code>as.numeric(p1_df$char_vec)</code></pre>
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
 <pre><code>##  [1] NA NA NA NA NA NA NA NA NA NA</code></pre>
@@ -412,8 +412,8 @@ p1_df</code></pre>
 <pre><code>## [1] 2</code></pre>
 <pre class="r"><code># as.numeric works with logical and factor variables. it is because the logical vector consists of binary numeric values T=1 and F=0, and factor variables are categorical variables but when converted to numeric they get coerced to numbered levels. this helps to explain why mean works with logical vectors, but not factor variables until they are coerced to numeric.</code></pre>
 <pre class="r"><code>as.numeric(p1_df$log_vec) * p1_df$samp </code></pre>
-<pre><code>##  [1] 0.4253393 1.2642650 0.0000000 0.0000000 0.0000000 0.0000000 0.5652738
-##  [8] 0.0000000 0.5547641 0.0000000</code></pre>
+<pre><code>##  [1] 0.3111015 0.1827186 0.0000000 0.0000000 0.0000000 0.9706560 0.7167394
+##  [8] 0.0000000 0.0000000 0.0000000</code></pre>
 <pre class="r"><code># this works because log_vec is easily coerced to numeric, T=1 and F=0
 
 as.factor(p1_df$log_vec) * p1_df$samp</code></pre>
@@ -423,18 +423,14 @@ as.factor(p1_df$log_vec) * p1_df$samp</code></pre>
 <pre class="r"><code># T and F values get coded as factors; 2 levels
 
 as.numeric(as.factor(p1_df$log_vec)) * p1_df$samp</code></pre>
-<pre><code>##  [1]  0.85067852  2.52853007 -0.97522680 -0.53227166 -1.21499314 -0.09777702
-##  [7]  1.13054762 -0.68030355  1.10952825 -0.39175628</code></pre>
+<pre><code>##  [1]  0.62220302  0.36543721 -1.07024020 -0.56419571 -1.43857492  1.94131201
+##  [7]  1.43347885 -1.53089450 -0.94787544 -0.02514533</code></pre>
 <pre class="r"><code># T gets coded as 2 and False as 1 for numeric, and can multiple it by another numeric</code></pre>
 </div>
 <div id="problem-2" class="section level2">
 <h2>Problem 2</h2>
 <pre class="r"><code>data(&quot;penguins&quot;, package = &quot;palmerpenguins&quot;)
-names(penguins)</code></pre>
-<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
-## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
-## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
-<pre class="r"><code>summary(penguins)</code></pre>
+summary(penguins)</code></pre>
 <pre><code>##       species          island    bill_length_mm  bill_depth_mm  
 ##  Adelie   :152   Biscoe   :168   Min.   :32.10   Min.   :13.10  
 ##  Chinstrap: 68   Dream    :124   1st Qu.:39.23   1st Qu.:15.60  
@@ -451,6 +447,13 @@ names(penguins)</code></pre>
 ##  3rd Qu.:213.0     3rd Qu.:4750                3rd Qu.:2009  
 ##  Max.   :231.0     Max.   :6300                Max.   :2009  
 ##  NA's   :2         NA's   :2</code></pre>
+<pre class="r"><code>nrow(penguins %&gt;% filter(sex == &quot;female&quot;))</code></pre>
+<pre><code>## [1] 165</code></pre>
+<pre class="r"><code>levels(penguins$species)</code></pre>
+<pre><code>## [1] &quot;Adelie&quot;    &quot;Chinstrap&quot; &quot;Gentoo&quot;</code></pre>
+<pre class="r"><code>summary(penguins$species)</code></pre>
+<pre><code>##    Adelie Chinstrap    Gentoo 
+##       152        68       124</code></pre>
 <pre class="r"><code>nrow(penguins)</code></pre>
 <pre><code>## [1] 344</code></pre>
 <pre class="r"><code>ncol(penguins)</code></pre>
@@ -458,9 +461,18 @@ names(penguins)</code></pre>
 <pre class="r"><code>mean(penguins$flipper_length_mm)</code></pre>
 <pre><code>## [1] NA</code></pre>
 <p>The names in the penguins dataset are species, island, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, sex, year.</p>
-<p>The values of important variables are Adelie :152 , Chinstrap: 68 , Gentoo :124 , NA, NA, NA, NA, Biscoe :168 , Dream :124 , Torgersen: 52 , NA, NA, NA, NA, Min. :32.10 , 1st Qu.:39.23 , Median :44.45 , Mean :43.92 , 3rd Qu.:48.50 , Max. :59.60 , NA’s :2 , Min. :13.10 , 1st Qu.:15.60 , Median :17.30 , Mean :17.15 , 3rd Qu.:18.70 , Max. :21.50 , NA’s :2 , Min. :172.0 , 1st Qu.:190.0 , Median :197.0 , Mean :200.9 , 3rd Qu.:213.0 , Max. :231.0 , NA’s :2 , Min. :2700 , 1st Qu.:3550 , Median :4050 , Mean :4202 , 3rd Qu.:4750 , Max. :6300 , NA’s :2 , female:165 , male :168 , NA’s : 11 , NA, NA, NA, NA, Min. :2007 , 1st Qu.:2007 , Median :2008 , Mean :2008 , 3rd Qu.:2009 , Max. :2009 , NA</p>
+<p>The values for penguin species are 152, 68, 124 for Adelie, Chinstrap, Gentoo, respectively.</p>
+<p>The values for penguin island are 168, 124, 52 for Biscoe, Dream, Torgersen, respectively.</p>
+<p>The values for penguin bill length (mm) are 32.1, 39.225, 44.45, 43.9219298, 48.5, 59.6, 2 for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.</p>
+<p>The values for penguin bill depth (mm) are 13.1, 15.6, 17.3, 17.1511696, 18.7, 21.5, 2 for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.</p>
+<p>The values for penguin flipper length (mm) are 172, 190, 197, 200.9152047, 213, 231, 2 for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.</p>
+<p>The values for body mass in grams are 2700, 3550, 4050, 4201.754386, 4750, 6300, 2 for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.</p>
+<p>There are 165 females and 0 in the dataset.</p>
 <p>The dataset has 344 rows and 8 columns.</p>
 <p>The mean flipper length is NA.</p>
+<div id="scatterplot" class="section level3">
+<h3>Scatterplot</h3>
+</div>
 </div>
 
 

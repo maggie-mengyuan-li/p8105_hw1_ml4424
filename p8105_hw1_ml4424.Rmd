@@ -53,6 +53,7 @@ as.numeric(as.factor(p1_df$log_vec)) * p1_df$samp
 ```{r}
 data("penguins", package = "palmerpenguins")
 summary(penguins)
+median(na.omit(penguins$bill_depth_mm))
 nrow(penguins %>% filter(sex == "female"))
 levels(penguins$species)
 summary(penguins$species)
@@ -68,13 +69,13 @@ The values for penguin species are `r summary(penguins$species)` for `r levels(p
 
 The values for penguin island are `r summary(penguins$island)` for `r levels(penguins$island)`, respectively.
 
-The values for penguin bill length (mm) are `r summary(penguins$bill_length_mm)` for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.
+The mean penguin bill length is `r mean(na.omit(penguins$bill_length_mm))` mm and the median bill length is `r median(na.omit(penguins$bill_length_mm))` mm.
 
-The values for penguin bill depth (mm) are `r summary(penguins$bill_depth_mm)` for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.
+The mean penguin bill depth is `r mean(na.omit(penguins$bill_depth_mm))` mm and the median bill depth is `r median(na.omit(penguins$bill_depth_mm))` mm.
 
-The values for penguin flipper length (mm) are `r summary(penguins$flipper_length_mm)` for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.
+The mean penguin flipper length is `r mean(na.omit(penguins$flipper_length_mm))` mm and the median flipper length is `r median(na.omit(penguins$flipper_length_mm))` mm.
 
-The values for body mass in grams are `r summary(penguins$body_mass_g)` for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.
+The mean penguin body mass is `r mean(na.omit(penguins$body_mass_g))` grams and the median body mass is `r median(na.omit(penguins$body_mass_g))` grams.
 
 There are `r nrow(penguins %>% filter(sex == "female"))` females and `r nrow(penguins %>% filter(sex == "male"))` males in the penguins dataset.
 

@@ -390,21 +390,21 @@ summary {
                     &quot;bananas&quot;)))
 p1_df</code></pre>
 <pre><code>## # A tibble: 10 x 4
-##       samp log_vec char_vec fac_vec
-##      &lt;dbl&gt; &lt;lgl&gt;   &lt;chr&gt;    &lt;fct&gt;  
-##  1  0.311  TRUE    a        bananas
-##  2  0.183  TRUE    b        oranges
-##  3 -1.07   FALSE   c        apples 
-##  4 -0.564  FALSE   d        bananas
-##  5 -1.44   FALSE   e        oranges
-##  6  0.971  TRUE    f        apples 
-##  7  0.717  TRUE    g        bananas
-##  8 -1.53   FALSE   h        oranges
-##  9 -0.948  FALSE   i        apples 
-## 10 -0.0251 FALSE   j        bananas</code></pre>
+##      samp log_vec char_vec fac_vec
+##     &lt;dbl&gt; &lt;lgl&gt;   &lt;chr&gt;    &lt;fct&gt;  
+##  1 -0.131 FALSE   a        bananas
+##  2 -0.417 FALSE   b        oranges
+##  3 -1.22  FALSE   c        apples 
+##  4  1.10  TRUE    d        bananas
+##  5  1.54  TRUE    e        oranges
+##  6  0.896 TRUE    f        apples 
+##  7  0.120 TRUE    g        bananas
+##  8  1.01  TRUE    h        oranges
+##  9  1.00  TRUE    i        apples 
+## 10 -0.472 FALSE   j        bananas</code></pre>
 <pre class="r"><code># you can take the mean of samp, log_vec (I am assuming since it is a vector of binary numeric values, T = 1 and F = 0 values) since these are continuous variables, but cannot take mean of characters or factors since these are categorical variables</code></pre>
 <pre class="r"><code>as.numeric(p1_df$log_vec)</code></pre>
-<pre><code>##  [1] 1 1 0 0 0 1 1 0 0 0</code></pre>
+<pre><code>##  [1] 0 0 0 1 1 1 1 1 1 0</code></pre>
 <pre class="r"><code>as.numeric(p1_df$char_vec)</code></pre>
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
 <pre><code>##  [1] NA NA NA NA NA NA NA NA NA NA</code></pre>
@@ -412,8 +412,8 @@ p1_df</code></pre>
 <pre><code>## [1] 2</code></pre>
 <pre class="r"><code># as.numeric works with logical and factor variables. it is because the logical vector consists of binary numeric values T=1 and F=0, and factor variables are categorical variables but when converted to numeric they get coerced to numbered levels. this helps to explain why mean works with logical vectors, but not factor variables until they are coerced to numeric.</code></pre>
 <pre class="r"><code>as.numeric(p1_df$log_vec) * p1_df$samp </code></pre>
-<pre><code>##  [1] 0.3111015 0.1827186 0.0000000 0.0000000 0.0000000 0.9706560 0.7167394
-##  [8] 0.0000000 0.0000000 0.0000000</code></pre>
+<pre><code>##  [1] 0.0000000 0.0000000 0.0000000 1.1013996 1.5365344 0.8964165 0.1200365
+##  [8] 1.0088888 1.0010943 0.0000000</code></pre>
 <pre class="r"><code># this works because log_vec is easily coerced to numeric, T=1 and F=0
 
 as.factor(p1_df$log_vec) * p1_df$samp</code></pre>
@@ -423,8 +423,8 @@ as.factor(p1_df$log_vec) * p1_df$samp</code></pre>
 <pre class="r"><code># T and F values get coded as factors; 2 levels
 
 as.numeric(as.factor(p1_df$log_vec)) * p1_df$samp</code></pre>
-<pre><code>##  [1]  0.62220302  0.36543721 -1.07024020 -0.56419571 -1.43857492  1.94131201
-##  [7]  1.43347885 -1.53089450 -0.94787544 -0.02514533</code></pre>
+<pre><code>##  [1] -0.1305736 -0.4166873 -1.2227723  2.2027993  3.0730687  1.7928330
+##  [7]  0.2400731  2.0177776  2.0021886 -0.4719605</code></pre>
 <pre class="r"><code># T gets coded as 2 and False as 1 for numeric, and can multiple it by another numeric</code></pre>
 </div>
 <div id="problem-2" class="section level2">
@@ -447,6 +447,8 @@ summary(penguins)</code></pre>
 ##  3rd Qu.:213.0     3rd Qu.:4750                3rd Qu.:2009  
 ##  Max.   :231.0     Max.   :6300                Max.   :2009  
 ##  NA's   :2         NA's   :2</code></pre>
+<pre class="r"><code>median(na.omit(penguins$bill_depth_mm))</code></pre>
+<pre><code>## [1] 17.3</code></pre>
 <pre class="r"><code>nrow(penguins %&gt;% filter(sex == &quot;female&quot;))</code></pre>
 <pre><code>## [1] 165</code></pre>
 <pre class="r"><code>levels(penguins$species)</code></pre>
@@ -463,11 +465,11 @@ summary(penguins)</code></pre>
 <p>The names in the penguins dataset are species, island, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, sex, year.</p>
 <p>The values for penguin species are 152, 68, 124 for Adelie, Chinstrap, Gentoo, respectively.</p>
 <p>The values for penguin island are 168, 124, 52 for Biscoe, Dream, Torgersen, respectively.</p>
-<p>The values for penguin bill length (mm) are 32.1, 39.225, 44.45, 43.9219298, 48.5, 59.6, 2 for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.</p>
-<p>The values for penguin bill depth (mm) are 13.1, 15.6, 17.3, 17.1511696, 18.7, 21.5, 2 for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.</p>
-<p>The values for penguin flipper length (mm) are 172, 190, 197, 200.9152047, 213, 231, 2 for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.</p>
-<p>The values for body mass in grams are 2700, 3550, 4050, 4201.754386, 4750, 6300, 2 for the minimum, 1st quantile, median, mean, 3rd quantile, and maximum, respectively.</p>
-<p>There are 165 females and 0 in the dataset.</p>
+<p>The mean penguin bill length is 43.9219298 mm and the median bill length is 44.45 mm.</p>
+<p>The mean penguin bill depth is 17.1511696 mm and the median bill depth is 17.3 mm.</p>
+<p>The mean penguin flipper length is 200.9152047 mm and the median flipper length is 197 mm.</p>
+<p>The mean penguin body mass is 4201.754386 grams and the median body mass is 4050 grams.</p>
+<p>There are 165 females and 168 males in the penguins dataset.</p>
 <p>The dataset has 344 rows and 8 columns.</p>
 <p>The mean flipper length is NA.</p>
 <div id="scatterplot" class="section level3">

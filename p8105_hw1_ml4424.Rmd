@@ -26,43 +26,41 @@ p1_df <- tibble(
                     "bananas")))
 p1_df
 
-# you can take the mean of samp, log_vec (I am assuming since it is a vector of binary numeric values, T = 1 and F = 0 values) since these are continuous variables, but cannot take mean of characters or factors since these are categorical variables
-
 ```
+Trying to take mean of variables: you can take the mean of samp, log_vec (I am assuming since it is a vector of binary numeric values, T = 1 and F = 0 values) since these are continuous variables, but cannot take mean of characters or factors since these are categorical variables
 
 ```{r numeric coercion}
 as.numeric(p1_df$log_vec)
 as.numeric(p1_df$char_vec)
 mean(as.numeric(p1_df$fac_vec))
-
-# as.numeric works with logical and factor variables. it is because the logical vector consists of binary numeric values T=1 and F=0, and factor variables are categorical variables but when converted to numeric they get coerced to numbered levels. this helps to explain why mean works with logical vectors, but not factor variables until they are coerced to numeric.
 ```
+
+Explanation: as.numeric works with logical and factor variables, because the logical vector consists of binary numeric values T=1 and F=0, and factor variables are categorical variables but when converted to numeric they get coerced to numbers based on level hierarchy. This helps to explain why mean works with logical vectors, but not factor variables until they are coerced to numeric.
 
 ```{r convert logical}
 as.numeric(p1_df$log_vec) * p1_df$samp 
-# this works because log_vec is easily coerced to numeric, T=1 and F=0
+# this works because log_vec is easily coerced to numeric, T=1 and F=0, to be multiplied by another numeric
 
 as.factor(p1_df$log_vec) * p1_df$samp
-# T and F values get coded as factors; 2 levels
+# T and F values in original logical vector get coded as factors, with 2 levels. cannot multiple factors (categorical variables) meaningfully with a numeric vector
 
 as.numeric(as.factor(p1_df$log_vec)) * p1_df$samp
-# T gets coded as 2 and False as 1 for numeric, and can multiple it by another numeric
+# T gets coded as 2 and False as 1 for numeric, and can multiply it by another numeric
 ```
 
 ## Problem 2
 ```{r}
+# read in data
 data("penguins", package = "palmerpenguins")
+
+# preliminary examination of dataframe
 summary(penguins)
-median(na.omit(penguins$bill_depth_mm))
-nrow(penguins %>% filter(sex == "female"))
-levels(penguins$species)
-summary(penguins$species)
-nrow(penguins)
-ncol(penguins)
-mean(penguins$flipper_length_mm)
+names(penguins)
 ```
 
-The names in the penguins dataset are 
+### Descriptions of Penguins Data
+
+The names of variables included in the penguins dataset are 
 `r names(penguins)`. 
 
 The values for penguin species are `r summary(penguins$species)` for `r levels(penguins$species)`, respectively.
@@ -79,8 +77,21 @@ The mean penguin body mass is `r mean(na.omit(penguins$body_mass_g))` grams and 
 
 There are `r nrow(penguins %>% filter(sex == "female"))` females and `r nrow(penguins %>% filter(sex == "male"))` males in the penguins dataset.
 
-The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columns.
+The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columns. Data were collected between `r min(penguins$year)` and `r max(penguins$year)`
 
-The mean flipper length is `r mean(penguins$flipper_length_mm)`.
 
 ### Scatterplot
+
+```{r}
+setwd("/Users/maggieli/Documents/Columbia/Classes, TAing/Fall2020/Data Science/p8105_hw1_ml4424")
+plotted_dta <- ggplot() + 
+  geom_point(data = na.omit(penguins),
+            aes(x=bill_length_mm, y = flipper_length_mm,
+                color = species)) + 
+  labs(title = "Penguin Bill vs. Flipper Length",
+       x = "Bill Length (mm)",
+       y = "Flipper Length (mm)")
+  
+ggsave("plotted_dta.pdf")
+```
+

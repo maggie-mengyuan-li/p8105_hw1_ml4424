@@ -390,46 +390,49 @@ summary {
                     &quot;bananas&quot;)))
 p1_df</code></pre>
 <pre><code>## # A tibble: 10 x 4
-##      samp log_vec char_vec fac_vec
-##     &lt;dbl&gt; &lt;lgl&gt;   &lt;chr&gt;    &lt;fct&gt;  
-##  1 -0.131 FALSE   a        bananas
-##  2 -0.417 FALSE   b        oranges
-##  3 -1.22  FALSE   c        apples 
-##  4  1.10  TRUE    d        bananas
-##  5  1.54  TRUE    e        oranges
-##  6  0.896 TRUE    f        apples 
-##  7  0.120 TRUE    g        bananas
-##  8  1.01  TRUE    h        oranges
-##  9  1.00  TRUE    i        apples 
-## 10 -0.472 FALSE   j        bananas</code></pre>
-<pre class="r"><code># you can take the mean of samp, log_vec (I am assuming since it is a vector of binary numeric values, T = 1 and F = 0 values) since these are continuous variables, but cannot take mean of characters or factors since these are categorical variables</code></pre>
+##        samp log_vec char_vec fac_vec
+##       &lt;dbl&gt; &lt;lgl&gt;   &lt;chr&gt;    &lt;fct&gt;  
+##  1  1.32    TRUE    a        bananas
+##  2 -0.119   FALSE   b        oranges
+##  3  0.00460 TRUE    c        apples 
+##  4 -0.223   FALSE   d        bananas
+##  5  0.148   TRUE    e        oranges
+##  6  0.313   TRUE    f        apples 
+##  7 -0.171   FALSE   g        bananas
+##  8  0.196   TRUE    h        oranges
+##  9  1.12    TRUE    i        apples 
+## 10 -0.0504  FALSE   j        bananas</code></pre>
+<p>Trying to take mean of variables: you can take the mean of samp, log_vec (I am assuming since it is a vector of binary numeric values, T = 1 and F = 0 values) since these are continuous variables, but cannot take mean of characters or factors since these are categorical variables</p>
 <pre class="r"><code>as.numeric(p1_df$log_vec)</code></pre>
-<pre><code>##  [1] 0 0 0 1 1 1 1 1 1 0</code></pre>
+<pre><code>##  [1] 1 0 1 0 1 1 0 1 1 0</code></pre>
 <pre class="r"><code>as.numeric(p1_df$char_vec)</code></pre>
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
 <pre><code>##  [1] NA NA NA NA NA NA NA NA NA NA</code></pre>
 <pre class="r"><code>mean(as.numeric(p1_df$fac_vec))</code></pre>
 <pre><code>## [1] 2</code></pre>
-<pre class="r"><code># as.numeric works with logical and factor variables. it is because the logical vector consists of binary numeric values T=1 and F=0, and factor variables are categorical variables but when converted to numeric they get coerced to numbered levels. this helps to explain why mean works with logical vectors, but not factor variables until they are coerced to numeric.</code></pre>
+<p>Explanation: as.numeric works with logical and factor variables, because the logical vector consists of binary numeric values T=1 and F=0, and factor variables are categorical variables but when converted to numeric they get coerced to numbers based on level hierarchy. This helps to explain why mean works with logical vectors, but not factor variables until they are coerced to numeric.</p>
 <pre class="r"><code>as.numeric(p1_df$log_vec) * p1_df$samp </code></pre>
-<pre><code>##  [1] 0.0000000 0.0000000 0.0000000 1.1013996 1.5365344 0.8964165 0.1200365
-##  [8] 1.0088888 1.0010943 0.0000000</code></pre>
-<pre class="r"><code># this works because log_vec is easily coerced to numeric, T=1 and F=0
+<pre><code>##  [1] 1.3151708 0.0000000 0.0046021 0.0000000 0.1475814 0.3125247 0.0000000
+##  [8] 0.1964582 1.1234655 0.0000000</code></pre>
+<pre class="r"><code># this works because log_vec is easily coerced to numeric, T=1 and F=0, to be multiplied by another numeric
 
 as.factor(p1_df$log_vec) * p1_df$samp</code></pre>
 <pre><code>## Warning in Ops.factor(as.factor(p1_df$log_vec), p1_df$samp): '*' not meaningful
 ## for factors</code></pre>
 <pre><code>##  [1] NA NA NA NA NA NA NA NA NA NA</code></pre>
-<pre class="r"><code># T and F values get coded as factors; 2 levels
+<pre class="r"><code># T and F values in original logical vector get coded as factors, with 2 levels. cannot multiple factors (categorical variables) meaningfully with a numeric vector
 
 as.numeric(as.factor(p1_df$log_vec)) * p1_df$samp</code></pre>
-<pre><code>##  [1] -0.1305736 -0.4166873 -1.2227723  2.2027993  3.0730687  1.7928330
-##  [7]  0.2400731  2.0177776  2.0021886 -0.4719605</code></pre>
-<pre class="r"><code># T gets coded as 2 and False as 1 for numeric, and can multiple it by another numeric</code></pre>
+<pre><code>##  [1]  2.630341671 -0.118617772  0.009204199 -0.223307418  0.295162844
+##  [6]  0.625049430 -0.170531942  0.392916367  2.246931051 -0.050373494</code></pre>
+<pre class="r"><code># T gets coded as 2 and False as 1 for numeric, and can multiply it by another numeric</code></pre>
 </div>
 <div id="problem-2" class="section level2">
 <h2>Problem 2</h2>
-<pre class="r"><code>data(&quot;penguins&quot;, package = &quot;palmerpenguins&quot;)
+<pre class="r"><code># read in data
+data(&quot;penguins&quot;, package = &quot;palmerpenguins&quot;)
+
+# preliminary examination of dataframe
 summary(penguins)</code></pre>
 <pre><code>##       species          island    bill_length_mm  bill_depth_mm  
 ##  Adelie   :152   Biscoe   :168   Min.   :32.10   Min.   :13.10  
@@ -447,22 +450,13 @@ summary(penguins)</code></pre>
 ##  3rd Qu.:213.0     3rd Qu.:4750                3rd Qu.:2009  
 ##  Max.   :231.0     Max.   :6300                Max.   :2009  
 ##  NA's   :2         NA's   :2</code></pre>
-<pre class="r"><code>median(na.omit(penguins$bill_depth_mm))</code></pre>
-<pre><code>## [1] 17.3</code></pre>
-<pre class="r"><code>nrow(penguins %&gt;% filter(sex == &quot;female&quot;))</code></pre>
-<pre><code>## [1] 165</code></pre>
-<pre class="r"><code>levels(penguins$species)</code></pre>
-<pre><code>## [1] &quot;Adelie&quot;    &quot;Chinstrap&quot; &quot;Gentoo&quot;</code></pre>
-<pre class="r"><code>summary(penguins$species)</code></pre>
-<pre><code>##    Adelie Chinstrap    Gentoo 
-##       152        68       124</code></pre>
-<pre class="r"><code>nrow(penguins)</code></pre>
-<pre><code>## [1] 344</code></pre>
-<pre class="r"><code>ncol(penguins)</code></pre>
-<pre><code>## [1] 8</code></pre>
-<pre class="r"><code>mean(penguins$flipper_length_mm)</code></pre>
-<pre><code>## [1] NA</code></pre>
-<p>The names in the penguins dataset are species, island, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, sex, year.</p>
+<pre class="r"><code>names(penguins)</code></pre>
+<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
+## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
+## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
+<div id="descriptions-of-penguins-data" class="section level3">
+<h3>Descriptions of Penguins Data</h3>
+<p>The names of variables included in the penguins dataset are species, island, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, sex, year.</p>
 <p>The values for penguin species are 152, 68, 124 for Adelie, Chinstrap, Gentoo, respectively.</p>
 <p>The values for penguin island are 168, 124, 52 for Biscoe, Dream, Torgersen, respectively.</p>
 <p>The mean penguin bill length is 43.9219298 mm and the median bill length is 44.45 mm.</p>
@@ -470,10 +464,21 @@ summary(penguins)</code></pre>
 <p>The mean penguin flipper length is 200.9152047 mm and the median flipper length is 197 mm.</p>
 <p>The mean penguin body mass is 4201.754386 grams and the median body mass is 4050 grams.</p>
 <p>There are 165 females and 168 males in the penguins dataset.</p>
-<p>The dataset has 344 rows and 8 columns.</p>
-<p>The mean flipper length is NA.</p>
+<p>The dataset has 344 rows and 8 columns. Data were collected between 2007 and 2009</p>
+</div>
 <div id="scatterplot" class="section level3">
 <h3>Scatterplot</h3>
+<pre class="r"><code>setwd(&quot;/Users/maggieli/Documents/Columbia/Classes, TAing/Fall2020/Data Science/p8105_hw1_ml4424&quot;)
+plotted_dta &lt;- ggplot() + 
+  geom_point(data = na.omit(penguins),
+            aes(x=bill_length_mm, y = flipper_length_mm,
+                color = species)) + 
+  labs(title = &quot;Penguin Bill vs. Flipper Length&quot;,
+       x = &quot;Bill Length (mm)&quot;,
+       y = &quot;Flipper Length (mm)&quot;)
+  
+ggsave(&quot;plotted_dta.pdf&quot;)</code></pre>
+<pre><code>## Saving 7 x 5 in image</code></pre>
 </div>
 </div>
 
